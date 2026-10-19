@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/db";
-import { brands, carImages, cars, faqs, siteSettings, testimonials } from "@/db/schema";
+import { brands, carImages, cars, faqs, ownerSettings, siteSettings, testimonials } from "@/db/schema";
 import { isMaster, requireAdmin, requireMaster } from "@/lib/admin";
 import { isCurrency } from "@/lib/currency";
 import { carFiles, carImageUrl } from "@/lib/storage";
@@ -19,7 +19,10 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").repla
 // ---------- settings ----------
 const optionalEmail = z.string().trim().max(200).refine((v) => !v || z.string().email().safeParse(v).success, "Enter a valid email");
 
+const discordHook = z.string().trim().max(300).refine((v) => !v || /^https:\/\/(discord|discordapp)\.com\/api\/webhooks\/\d+\/[\w-]+$/.test(v), "Enter a Discord webhook URL (https://discord.com/api/webhooks/...)");
+
 const settingsSchema = z.object({
+  discordWebhook: discordHook,
   phones: z.string().transform((s) => s.split(/\r?\n/).map((x) => x.trim()).filter(Boolean)).pipe(z.array(z.string().max(30)).max(10)),
   smsNumber: z.string().trim().max(30).refine((v) => !v || /^\+?[\d\s()-]{7,}$/.test(v), "Enter a valid text message number"),
   whatsapp: z.string().trim().max(30).refine((v) => !v || /^\+?[\d\s()-]{7,}$/.test(v), "Enter a valid WhatsApp number"),
@@ -42,6 +45,15 @@ export async function saveSettings(_: FormState, f: FormData): Promise<FormState
   };
   await db.insert(siteSettings).values({ id: 1, ...values }).onConflictDoUpdate({ target: siteSettings.id, set: values });
   updateTag("settings");
+  return { ok: true };
+}
+
+/** Master only: the webhook that sends every order to the super admin's own Discord. Deleted with the master account. */
+export async function saveMasterWebhook(_: FormState, f: FormData): Promise<FormState> {
+  await requireMaster();
+  const parsed = z.object({ discordWebhook: discordHook }).safeParse(Object.fromEntries(f));
+  if (!parsed.success) return fail(parsed.error);
+  await db.insert(ownerSettings).values({ id: 1, ...parsed.data }).onConflictDoUpdate({ target: ownerSettings.id, set: parsed.data });
   return { ok: true };
 }
 
@@ -268,6 +280,7 @@ export async function removeMaster(_: FormState, f: FormData): Promise<FormState
   if (!parsed.success) return fail(parsed.error);
   if (!(await authPost("sign-in/email", { email: master.email, password: parsed.data.masterPassword })).ok) return { error: "Your master password is incorrect." };
   if (!(await listDealershipAdmins()).length) return { error: "There is no dealership admin yet. Create one above first, so the site is not left without an admin." };
+  await db.delete(ownerSettings); // the master's webhook goes with the master
   await db.execute(sql`delete from neon_auth."user" where id = ${master.id}`);
   return { ok: true };
 }

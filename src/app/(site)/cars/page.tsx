@@ -45,7 +45,7 @@ async function Results({ searchParams }: { searchParams: Promise<Filters> }) {
 export default function CarsPage({ searchParams }: { searchParams: Promise<Filters> }) {
   return (
     <div className="mx-auto w-full max-w-6xl space-y-6 px-4 pb-12 pt-28">
-      <h1 className="text-3xl font-bold">Our cars</h1>
+      <h1 className="text-3xl font-bold">Our used cars</h1>
       <Suspense fallback={<p className="text-muted-foreground">Loading…</p>}>
         <Results searchParams={searchParams} />
       </Suspense>

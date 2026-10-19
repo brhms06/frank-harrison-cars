@@ -33,8 +33,8 @@ export default function About() {
     <>
       <section className="bg-brand-soft px-4 pb-14 pt-36 text-center">
         <div className="mx-auto max-w-3xl space-y-4">
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-brand sm:text-4xl">About Frank Harrison Cars: quality used cars, honestly sold</h1>
-          <p className="text-sm text-neutral-500">We are an independent dealership selling inspected pre-owned sedans and SUVs at fair prices, with <b className="text-neutral-700">clear terms and no hidden costs</b>.</p>
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-brand sm:text-4xl">About apexdrivehouse.com: quality used cars, honestly sold</h1>
+          <p className="text-sm text-neutral-500">We are an independent dealership that sells used cars only: inspected pre-owned sedans and SUVs at fair prices, with <b className="text-neutral-700">clear terms and no hidden costs</b>.</p>
         </div>
         <div className="mx-auto mt-10 grid max-w-5xl grid-cols-3 gap-3">
           {["accord-2018-a", "sorento-a", "camry-a"].map((k) => <Photo key={k} src={k} className="aspect-[4/3]" />)}
@@ -71,7 +71,7 @@ export default function About() {
 
       <section className="bg-brand-soft px-4 py-14">
         <div className="mx-auto max-w-6xl space-y-8">
-          <h2 className="text-center text-2xl font-semibold tracking-tight text-brand">Frank Harrison Cars by the numbers</h2>
+          <h2 className="text-center text-2xl font-semibold tracking-tight text-brand">apexdrivehouse.com by the numbers</h2>
           <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {numbers.map(([n, label]) => (
               <div key={label} className="rounded-xl bg-white p-6 text-center shadow-sm">

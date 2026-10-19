@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Frank Harrison Cars",
-  description: "Quality pre-owned cars, inspected and honestly priced.",
+  title: { default: "apexdrivehouse.com | Quality used cars", template: "%s | apexdrivehouse.com" },
+  description: "We sell used cars only: every car is pre-owned, inspected and honestly priced.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

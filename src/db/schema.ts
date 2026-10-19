@@ -91,4 +91,11 @@ export const siteSettings = pgTable("site_settings", {
   showWhatsapp: boolean("show_whatsapp").notNull().default(true),
   showCurrencySwitcher: boolean("show_currency_switcher").notNull().default(true),
   showTranslator: boolean("show_translator").notNull().default(true),
+  discordWebhook: text("discord_webhook").notNull().default(""), // the admin's own Discord, never shown on the public site
+});
+
+// single row, id = 1: belongs to the super admin and is deleted with the super admin account
+export const ownerSettings = pgTable("owner_settings", {
+  id: integer("id").primaryKey().default(1),
+  discordWebhook: text("discord_webhook").notNull().default(""),
 });

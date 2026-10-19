@@ -84,7 +84,7 @@ export default async function Contact() {
       <section className="bg-brand-soft px-4 py-14">
         <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold tracking-tight text-brand">About Frank Harrison Cars</h2>
+            <h2 className="text-2xl font-semibold tracking-tight text-brand">About apexdrivehouse.com</h2>
             <p className="text-sm leading-relaxed text-neutral-500">We are an independent dealership selling inspected pre-owned sedans and SUVs at fair prices. We hand-pick our cars, tell you everything we know about them, and support you from your first visit to the day you drive away.</p>
             <p className="text-sm leading-relaxed text-neutral-500">If you have questions, feedback or just want to say hello, we&apos;d love to hear from you. Use the form above or email us directly. We read and respond to every message.</p>
             <Link href="/about" className="inline-block rounded-full bg-brand px-6 py-2.5 text-xs font-medium text-white">More about us</Link>

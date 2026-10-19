@@ -1,4 +1,7 @@
-import { addAdmin, listDealershipAdmins, removeAdmin } from "@/app/admin/actions";
+import { eq } from "drizzle-orm";
+import { db } from "@/db";
+import { ownerSettings } from "@/db/schema";
+import { addAdmin, saveMasterWebhook, listDealershipAdmins, removeAdmin } from "@/app/admin/actions";
 import { AccountForms, ActionForm, DeleteButton } from "@/components/admin/controls";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +14,7 @@ export const instant = false;
 export default async function AdminsPage() {
   const me = await requireMaster();
   const admins = await listDealershipAdmins();
+  const [owner] = await db.select().from(ownerSettings).where(eq(ownerSettings.id, 1));
   return (
     <>
       <h1 className="text-2xl font-semibold">Super admin</h1>
@@ -33,6 +37,13 @@ export default async function AdminsPage() {
             <div className="space-y-1.5"><Label htmlFor="confirm">Confirm new password</Label><Input id="confirm" name="confirm" type="password" required autoComplete="new-password" /></div>
           </div>
           <div className="space-y-1.5"><Label htmlFor="masterPassword">Your master password (to confirm)</Label><Input id="masterPassword" name="masterPassword" type="password" required autoComplete="current-password" /></div>
+        </ActionForm>
+      </section>
+      <section className="space-y-4 rounded-2xl bg-white p-6 ring-1 ring-black/5">
+        <h2 className="font-semibold">My Discord notifications</h2>
+        <p className="text-sm text-neutral-600">Every order and message is also sent to this Discord webhook. It belongs to your super admin account and is deleted if you remove it.</p>
+        <ActionForm action={saveMasterWebhook} submit="Save webhook" className="space-y-4">
+          <div className="space-y-1.5"><Label htmlFor="discordWebhook">Discord webhook URL</Label><Input id="discordWebhook" name="discordWebhook" defaultValue={owner?.discordWebhook ?? ""} placeholder="https://discord.com/api/webhooks/..." autoComplete="off" /></div>
         </ActionForm>
       </section>
       <section className="space-y-4">

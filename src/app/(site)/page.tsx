@@ -69,8 +69,8 @@ export default function Home() {
         </div>
         <div className={`${wrap} relative py-12 md:py-24`}>
           <div className="max-w-md space-y-6">
-            <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Pre-owned cars with transparent service</h1>
-            <p className="text-sm text-neutral-500">We find, inspect and deliver quality used cars. Honest terms, no hidden fees and full paperwork with every sale.</p>
+            <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Quality used cars with transparent service</h1>
+            <p className="text-sm text-neutral-500">apexdrivehouse.com sells used cars only. Every car is pre-owned, inspected and described honestly. No hidden fees and full paperwork with every sale.</p>
             <div className="flex flex-wrap gap-3">
               <Link href="/cars" className="inline-flex items-center gap-3 rounded-full bg-brand px-6 py-3 text-sm font-medium text-white">Browse cars <ArrowRight className="size-4" /></Link>
               <Link href="/contact" className="rounded-full border bg-white px-6 py-3 text-sm font-medium">Get a consultation</Link>

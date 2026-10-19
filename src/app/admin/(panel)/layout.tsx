@@ -15,7 +15,7 @@ async function Shell({ children }: { children: React.ReactNode }) {
     <CurrencyProvider base={settings.defaultCurrency} locked>
     <div className="min-h-screen bg-neutral-100 md:flex">
       <aside className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 bg-brand px-4 py-3 text-white md:block md:min-h-screen md:w-56 md:shrink-0 md:space-y-6 md:p-5">
-        <p className="font-serif text-2xl font-semibold">FH <span className="font-sans text-xs font-normal text-white/60">Admin</span></p>
+        <p className="font-serif text-2xl font-semibold">AD <span className="font-sans text-xs font-normal text-white/60">Admin</span></p>
         {/* on phones the links sit in one swipeable row under the logo bar */}
         <nav className="order-last -mx-4 flex w-[calc(100%+2rem)] gap-2 overflow-x-auto px-4 pb-1 text-sm [scrollbar-width:none] md:order-none md:m-0 md:w-auto md:flex-col md:gap-3 md:overflow-visible md:p-0">
           {nav.map(([label, href]) => <Link key={href} href={href} className="shrink-0 rounded-full bg-white/10 px-3 py-1.5 text-white/90 hover:bg-white/20 md:rounded-none md:bg-transparent md:p-0 md:text-white/80 md:hover:bg-transparent md:hover:text-white">{label}</Link>)}

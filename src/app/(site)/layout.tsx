@@ -27,8 +27,8 @@ async function Chrome({ children }: { children: React.ReactNode }) {
       <header className="absolute inset-x-0 top-4 z-50 px-4">
         <nav className="relative mx-auto flex h-14 w-full max-w-6xl items-center justify-between rounded-full bg-white/95 px-4 sm:px-6 shadow-sm ring-1 ring-black/5 backdrop-blur">
           <Link href="/" className="flex items-center gap-2">
-            <span className="font-serif text-2xl font-semibold leading-none">FH</span>
-            <span className="text-[11px] font-semibold tracking-wide sm:text-xs">FRANK HARRISON</span>
+            <span className="font-serif text-2xl font-semibold leading-none">AD</span>
+            <span className="text-[11px] font-semibold tracking-wide sm:text-xs">APEXDRIVEHOUSE.COM</span>
           </Link>
           <ul className="hidden gap-7 text-xs lg:flex">
             {navLinks.map(([label, href]) => (
@@ -69,7 +69,7 @@ async function Chrome({ children }: { children: React.ReactNode }) {
           <div className="grid gap-10 sm:grid-cols-2">
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Can&apos;t find the right car?</h2>
-              <p className="max-w-sm text-sm text-white/70">Tell us what you&apos;re looking for and we&apos;ll help you find it, from budget to body style.</p>
+              <p className="max-w-sm text-sm text-white/70">We sell used cars only. Tell us what you&apos;re looking for and we&apos;ll help you find it, from budget to body style.</p>
               <Link href="/contact" className="inline-block rounded-full bg-white px-6 py-3 text-sm font-medium text-black">Contact us</Link>
             </div>
             <div className="space-y-4">
@@ -80,7 +80,7 @@ async function Chrome({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div className="mt-10 flex flex-wrap justify-between gap-2 border-t border-white/10 pt-6 text-xs text-white/50">
-            <span>© 2026 Frank Harrison Cars. All rights reserved.</span>
+            <span>© 2026 apexdrivehouse.com. All rights reserved.</span>
             <Link href="/credits" className="underline">Photo credits</Link>
           </div>
         </div>

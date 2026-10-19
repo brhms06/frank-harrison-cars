@@ -37,6 +37,11 @@ export default async function AdminSettings() {
           </div>
         </section>
 
+        <section className="space-y-4 rounded-2xl bg-white p-6 ring-1 ring-black/5">
+          <h2 className="font-semibold">Order notifications</h2>
+          <div className="space-y-1.5"><Label htmlFor="discordWebhook">Discord webhook URL</Label><Input id="discordWebhook" name="discordWebhook" defaultValue={s.discordWebhook} placeholder="https://discord.com/api/webhooks/..." autoComplete="off" /><p className="text-xs text-neutral-500">New orders and messages are posted to your Discord channel. In Discord: channel settings, Integrations, Webhooks, New webhook, Copy URL. Leave empty to turn off.</p></div>
+        </section>
+
         <section className="space-y-3 rounded-2xl bg-white p-6 ring-1 ring-black/5">
           <h2 className="font-semibold">Show on the website</h2>
           <FormSwitch name="showTestimonials" label="Testimonials section" hint="On the home page" defaultChecked={s.showTestimonials} />

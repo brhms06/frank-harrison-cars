@@ -1,7 +1,9 @@
 "use server";
 import { z } from "zod";
 import { db } from "@/db";
-import { contactMessages, enquiries } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import { cars, contactMessages, enquiries } from "@/db/schema";
+import { notifyDiscord } from "@/lib/notify";
 import { contactSubjects } from "@/lib/contact";
 
 const schema = z.object({
@@ -23,9 +25,14 @@ export async function submitEnquiry(_: EnquiryState, form: FormData): Promise<En
   } catch {
     return { error: "Something went wrong, please try again." };
   }
+  const [car] = await db.select({ make: cars.make, model: cars.model, year: cars.year, price: cars.price }).from(cars).where(eq(cars.id, parsed.data.carId));
+  const d = parsed.data;
+  await notifyDiscord(`New order: ${d.type}`, [
+    { name: "Car", value: car ? `${car.year} ${car.make} ${car.model} (${car.price})` : `#${d.carId}` },
+    { name: "Name", value: d.name }, { name: "Phone", value: d.phone ?? "" }, { name: "Email", value: d.email }, { name: "Message", value: d.message ?? "" },
+  ]);
   return { ok: true };
 }
-
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -49,5 +56,6 @@ export async function submitContact(_: EnquiryState, form: FormData): Promise<En
   } catch {
     return { error: "Something went wrong, please try again." };
   }
+  await notifyDiscord(`New message: ${data.subject}`, [{ name: "Name", value: data.name }, { name: "Email", value: data.email }, { name: "Phone", value: data.phone ?? "" }, { name: "Message", value: data.message }]);
   return { ok: true };
 }
