@@ -2,7 +2,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ChevronDown, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { CurrencyProvider, CurrencySwitcher } from "@/components/currency";
-import { LanguageSwitcher } from "@/components/translator";
+import { MobileMenu } from "@/components/mobile-menu";
+import { LanguageSelect, TranslateScript } from "@/components/translator";
 import { getSettings } from "@/lib/content";
 import { financePages } from "@/lib/finance-pages";
 
@@ -14,6 +15,7 @@ const telLink = (n: string) => `tel:${n.replace(/[^\d+]/g, "")}`;
 async function Chrome({ children }: { children: React.ReactNode }) {
   const s = await getSettings();
   const phone = s.phones[0];
+  const navLinks = links.filter(([label]) => label !== "Reviews" || s.showTestimonials);
   const contact: (readonly [typeof Phone, string, string | undefined])[] = [
     ...s.phones.map((p) => [Phone, p, telLink(p)] as const),
     ...(s.email ? [[Mail, s.email, `mailto:${s.email}`] as const] : []),
@@ -23,13 +25,13 @@ async function Chrome({ children }: { children: React.ReactNode }) {
   return (
     <CurrencyProvider base={s.defaultCurrency} locked={!s.showCurrencySwitcher}>
       <header className="absolute inset-x-0 top-4 z-50 px-4">
-        <nav className="mx-auto flex h-14 w-full max-w-6xl items-center justify-between rounded-full bg-white/95 px-6 shadow-sm ring-1 ring-black/5 backdrop-blur">
+        <nav className="relative mx-auto flex h-14 w-full max-w-6xl items-center justify-between rounded-full bg-white/95 px-4 sm:px-6 shadow-sm ring-1 ring-black/5 backdrop-blur">
           <Link href="/" className="flex items-center gap-2">
             <span className="font-serif text-2xl font-semibold leading-none">FH</span>
-            <span className="text-xs font-semibold tracking-wide">FRANK HARRISON</span>
+            <span className="text-[11px] font-semibold tracking-wide sm:text-xs">FRANK HARRISON</span>
           </Link>
           <ul className="hidden gap-7 text-xs lg:flex">
-            {links.filter(([label]) => label !== "Reviews" || s.showTestimonials).map(([label, href]) => (
+            {navLinks.map(([label, href]) => (
               <li key={label} className="group relative">
                 <Link href={href} className="text-neutral-600 hover:text-black">{label}{label === "Financing" && <ChevronDown className="ml-1 inline size-3" />}</Link>
                 {label === "Financing" && (
@@ -42,14 +44,25 @@ async function Chrome({ children }: { children: React.ReactNode }) {
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-3">
-            {s.showTranslator && <LanguageSwitcher />}
-            {s.showCurrencySwitcher && <CurrencySwitcher />}
-            {phone && <a href={telLink(phone)} className="hidden items-center gap-2 text-xs md:flex"><Phone className="size-3.5" />{phone}</a>}
-            <Link href="/contact" className="rounded-full bg-brand px-5 py-2.5 text-xs font-medium text-white">Contact us</Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="hidden items-center gap-3 lg:flex">
+              {s.showTranslator && <LanguageSelect />}
+              {s.showCurrencySwitcher && <CurrencySwitcher />}
+              {phone && <a href={telLink(phone)} className="flex items-center gap-2 text-xs"><Phone className="size-3.5" />{phone}</a>}
+            </div>
+            <Link href="/contact" className="whitespace-nowrap rounded-full bg-brand px-4 py-2.5 text-xs font-medium text-white lg:px-5">Contact us</Link>
+            <MobileMenu
+              links={navLinks.map(([label, href]) => ({ label, href, children: label === "Financing" ? financePages.map((p) => ({ title: p.title, href: p.href })) : undefined }))}
+              phone={phone}
+              phoneHref={phone ? telLink(phone) : undefined}
+            >
+              {s.showTranslator && <LanguageSelect />}
+              {s.showCurrencySwitcher && <CurrencySwitcher />}
+            </MobileMenu>
           </div>
         </nav>
       </header>
+      {s.showTranslator && <TranslateScript />}
       <main className="flex-1">{children}</main>
       <footer id="contact" className="mx-auto w-full max-w-6xl px-4 pb-6 pt-10">
         <div className="rounded-3xl bg-brand p-8 text-white sm:p-10">
