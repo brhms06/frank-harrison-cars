@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { db } from "@/db";
 import { eq } from "drizzle-orm";
-import { cars, contactMessages, enquiries } from "@/db/schema";
+import { cars, contactMessages, enquiries, siteSettings } from "@/db/schema";
 import { notifyDiscord } from "@/lib/notify";
 import { contactSubjects } from "@/lib/contact";
 
@@ -25,10 +25,14 @@ export async function submitEnquiry(_: EnquiryState, form: FormData): Promise<En
   } catch {
     return { error: "Something went wrong, please try again." };
   }
-  const [car] = await db.select({ make: cars.make, model: cars.model, year: cars.year, price: cars.price }).from(cars).where(eq(cars.id, parsed.data.carId));
+  const [car] = await db.select({ make: cars.make, model: cars.model, year: cars.year, price: cars.price, percent: cars.downPaymentPercent }).from(cars).where(eq(cars.id, parsed.data.carId));
+  const [site] = await db.select({ currency: siteSettings.defaultCurrency }).from(siteSettings).where(eq(siteSettings.id, 1));
   const d = parsed.data;
+  const money = (n: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: site?.currency ?? "USD", maximumFractionDigits: 0 }).format(n);
+  const amount = !car ? "" : d.type === "full-payment" ? `${money(car.price)} (full price)` : d.type === "down-payment" ? `${money(Math.round((car.price * (car.percent ?? 25)) / 100))} (${car.percent ?? 25}% down payment)` : "";
   await notifyDiscord(`New order: ${d.type}`, [
-    { name: "Car", value: car ? `${car.year} ${car.make} ${car.model} (${car.price})` : `#${d.carId}` },
+    { name: "Car", value: car ? `${car.year} ${car.make} ${car.model} (${money(car.price)})` : `#${d.carId}` },
+    { name: "Amount to pay", value: amount },
     { name: "Name", value: d.name }, { name: "Phone", value: d.phone ?? "" }, { name: "Email", value: d.email }, { name: "Message", value: d.message ?? "" },
   ]);
   return { ok: true };
