@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, getTableColumns, gte, ilike, lte, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, getTableColumns, gte, ilike, lte, ne, or, sql } from "drizzle-orm";
 import { db } from "@/db";
 import { carImages, cars } from "@/db/schema";
 
@@ -33,7 +33,7 @@ export async function featuredCars() {
 }
 
 export async function listMakes() {
-  const rows = await db.selectDistinct({ make: cars.make }).from(cars).where(eq(cars.status, "available")).orderBy(cars.make);
+  const rows = await db.selectDistinct({ make: cars.make }).from(cars).where(and(eq(cars.status, "available"), ne(cars.make, ""))).orderBy(cars.make);
   return rows.map((r) => r.make);
 }
 
@@ -49,7 +49,7 @@ export async function makeCounts(limit = 4) {
   return db
     .select({ make: cars.make, count: sql<number>`count(*)::int` })
     .from(cars)
-    .where(eq(cars.status, "available"))
+    .where(and(eq(cars.status, "available"), ne(cars.make, "")))
     .groupBy(cars.make)
     .orderBy(desc(sql`count(*)`), cars.make)
     .limit(limit);

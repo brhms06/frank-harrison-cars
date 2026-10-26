@@ -143,7 +143,7 @@ export async function deleteFaq(id: number) {
 
 // ---------- cars ----------
 const carSchema = z.object({
-  make: z.string().trim().min(1, "Choose a brand").max(60),
+  make: z.string().trim().max(60), // optional: a car can be added without a brand
   model: z.string().trim().min(1, "Model is required").max(80),
   year: z.coerce.number().int().min(1950, "Enter a valid year").max(2100, "Enter a valid year"),
   price: z.coerce.number().int().min(0, "Enter a price").max(100_000_000),

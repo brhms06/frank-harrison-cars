@@ -40,11 +40,9 @@ export function CarForm({ car, brands }: { car: CarValues; brands: string[] }) {
       <div className="grid gap-4 sm:grid-cols-2">
         <div className="space-y-1.5">
           <Label htmlFor="make">Brand</Label>
-          <select id="make" name="make" required defaultValue={car.make} className="h-9 w-full rounded-md border bg-transparent px-3 text-sm">
-            <option value="" disabled>Choose a brand</option>
-            {makes.map((m) => <option key={m}>{m}</option>)}
-          </select>
-          {!brands.length && <p className="text-xs text-red-600">Add a brand first (Brands page).</p>}
+          <input id="make" name="make" list="brand-options" defaultValue={car.make} placeholder="Optional: pick a brand or type one" className="h-9 w-full rounded-md border bg-transparent px-3 text-sm" />
+          <datalist id="brand-options">{makes.map((m) => <option key={m} value={m} />)}</datalist>
+          <p className="text-xs text-neutral-500">Optional. Leave empty to add a car without a brand.</p>
         </div>
         {field("model", "Model", { defaultValue: car.model, placeholder: "Accord EX-L" })}
         {field("year", "Year", { type: "number", defaultValue: car.year || "", min: 1950 })}
