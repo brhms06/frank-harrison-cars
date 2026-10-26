@@ -1,5 +1,7 @@
 import { desc, eq } from "drizzle-orm";
 import Link from "next/link";
+import { deleteContactMessage, deleteEnquiry } from "@/app/admin/actions";
+import { DeleteButton } from "@/components/admin/controls";
 import { db } from "@/db";
 import { cars, contactMessages, enquiries } from "@/db/schema";
 import { requireAdmin } from "@/lib/admin";
@@ -40,7 +42,7 @@ export default async function AdminEnquiries() {
                   </div>
                   <p className="text-sm">{e.name}{e.phone && <> · <a href={`tel:${e.phone}`} className="underline">{e.phone}</a></>}{e.email && <> · <a href={`mailto:${e.email}`} className="underline">{e.email}</a></>}</p>
                   {e.message && <p className="whitespace-pre-line text-sm text-neutral-600">{e.message}</p>}
-                  <p className="text-xs text-neutral-400">{when(e.createdAt)}</p>
+                  <div className="flex items-center justify-between gap-3"><p className="text-xs text-neutral-400">{when(e.createdAt)}</p><DeleteButton action={deleteEnquiry.bind(null, e.id)} what="this enquiry" /></div>
                 </li>
               );
             })}
@@ -56,7 +58,7 @@ export default async function AdminEnquiries() {
                 <p className="text-sm font-semibold">{m.subject}</p>
                 <p className="text-sm">{m.name}{m.phone && <> · {m.phone}</>} · <a href={`mailto:${m.email}`} className="underline">{m.email}</a></p>
                 <p className="whitespace-pre-line text-sm text-neutral-600">{m.message}</p>
-                <p className="text-xs text-neutral-400">{when(m.createdAt)}</p>
+                <div className="flex items-center justify-between gap-3"><p className="text-xs text-neutral-400">{when(m.createdAt)}</p><DeleteButton action={deleteContactMessage.bind(null, m.id)} what="this message" /></div>
               </li>
             ))}
           </ul>

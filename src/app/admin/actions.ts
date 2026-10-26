@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { db } from "@/db";
-import { brands, carImages, cars, faqs, ownerSettings, siteSettings, testimonials } from "@/db/schema";
+import { brands, carImages, cars, contactMessages, enquiries, faqs, ownerSettings, siteSettings, testimonials } from "@/db/schema";
 import { isMaster, requireAdmin, requireMaster } from "@/lib/admin";
 import { isCurrency } from "@/lib/currency";
 import { carFiles, carImageUrl } from "@/lib/storage";
@@ -111,6 +111,19 @@ export async function deleteTestimonial(id: number) {
   await requireAdmin();
   await db.delete(testimonials).where(eq(testimonials.id, id));
   updateTag("testimonials");
+}
+
+// ---------- enquiries ----------
+export async function deleteEnquiry(id: number) {
+  await requireAdmin();
+  await db.delete(enquiries).where(eq(enquiries.id, id));
+  revalidatePath("/admin/enquiries");
+}
+
+export async function deleteContactMessage(id: number) {
+  await requireAdmin();
+  await db.delete(contactMessages).where(eq(contactMessages.id, id));
+  revalidatePath("/admin/enquiries");
 }
 
 // ---------- faqs ----------

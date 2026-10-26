@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Script from "next/script";
 import { Suspense } from "react";
 import { ChevronDown, Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { CurrencyProvider, CurrencySwitcher } from "@/components/currency";
@@ -63,6 +64,7 @@ async function Chrome({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
       {s.showTranslator && <TranslateScript />}
+      <Script src="//code.jivosite.com/widget/R1YP2dcNYG" strategy="afterInteractive" /> {/* live chat: public pages only, this layout never wraps /admin or /superadmin */}
       <main className="flex-1">{children}</main>
       <footer id="contact" className="mx-auto w-full max-w-6xl px-4 pb-6 pt-10">
         <div className="rounded-3xl bg-brand p-8 text-white sm:p-10">
