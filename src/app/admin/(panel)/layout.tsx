@@ -14,6 +14,9 @@ async function Shell({ children }: { children: React.ReactNode }) {
   return (
     <CurrencyProvider base={settings.defaultCurrency} locked>
     <div className="min-h-screen bg-neutral-100 md:flex">
+      {/* hide the live chat bubble here, even if it was loaded earlier on a public page */}
+      <style>{"jdiv{display:none!important}"}</style>
+
       <aside className="flex flex-wrap items-center justify-between gap-x-4 gap-y-3 bg-brand px-4 py-3 text-white md:block md:min-h-screen md:w-56 md:shrink-0 md:space-y-6 md:p-5">
         <p className="font-serif text-2xl font-semibold">AD <span className="font-sans text-xs font-normal text-white/60">Admin</span></p>
         {/* on phones the links sit in one swipeable row under the logo bar */}

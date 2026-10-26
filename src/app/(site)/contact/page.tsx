@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ContactForm } from "@/components/contact-form";
 import { Faq } from "@/components/finance-ui";
 import { getFaqs, getSettings } from "@/lib/content";
+import { mapEmbedUrl, mapLink } from "@/lib/map";
 
 export const metadata = { title: "Contact us" };
 
@@ -53,6 +54,12 @@ export default async function Contact() {
               </li>
             ))}
           </ul>
+          {s.latitude != null && s.longitude != null && (
+            <div className="space-y-2">
+              <iframe title="Our location" src={mapEmbedUrl(s.latitude, s.longitude)} className="h-64 w-full rounded-2xl border" loading="lazy" />
+              <a href={mapLink(s.latitude, s.longitude)} target="_blank" rel="noopener noreferrer" className="text-xs text-brand underline">Open in a larger map</a>
+            </div>
+          )}
           <div className="space-y-3 rounded-2xl bg-brand p-6 text-white">
             <p className="flex items-center gap-2 text-sm font-semibold"><Clock className="size-4" />Response times</p>
             <ul className="space-y-1.5 text-xs text-white/80">

@@ -57,6 +57,39 @@ export async function saveMasterWebhook(_: FormState, f: FormData): Promise<Form
   return { ok: true };
 }
 
+// ---------- map location ----------
+export type Place = { label: string; lat: number; lon: number };
+
+/** Looks an address up on OpenStreetMap (free, no key). Done on the server because Nominatim requires a User-Agent. */
+export async function searchLocation(query: string): Promise<{ places?: Place[]; error?: string }> {
+  await requireAdmin();
+  const q = query.trim().slice(0, 200);
+  if (q.length < 3) return { error: "Type the store address first." };
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=4&q=${encodeURIComponent(q)}`, { headers: { "user-agent": "apexdrivehouse.com store locator" } });
+    if (!res.ok) return { error: "The map search is busy, please try again in a moment." };
+    const rows = (await res.json()) as { display_name: string; lat: string; lon: string }[];
+    return { places: rows.map((r) => ({ label: r.display_name, lat: Number(r.lat), lon: Number(r.lon) })) };
+  } catch {
+    return { error: "Could not reach the map service, please try again." };
+  }
+}
+
+export async function saveMapLocation(lat: number, lon: number): Promise<FormState> {
+  await requireAdmin();
+  const parsed = z.object({ lat: z.number().min(-90).max(90), lon: z.number().min(-180).max(180) }).safeParse({ lat, lon });
+  if (!parsed.success) return { error: "That location is not valid." };
+  await db.insert(siteSettings).values({ id: 1, latitude: lat, longitude: lon }).onConflictDoUpdate({ target: siteSettings.id, set: { latitude: lat, longitude: lon } });
+  updateTag("settings");
+  return { ok: true };
+}
+
+export async function clearMapLocation() {
+  await requireAdmin();
+  await db.update(siteSettings).set({ latitude: null, longitude: null }).where(eq(siteSettings.id, 1));
+  updateTag("settings");
+}
+
 // ---------- brands ----------
 export async function addBrand(_: FormState, f: FormData): Promise<FormState> {
   await requireAdmin();

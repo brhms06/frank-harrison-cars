@@ -1,4 +1,4 @@
-import { boolean, index, integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, doublePrecision, index, integer, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
 export const cars = pgTable(
   "cars",
@@ -91,6 +91,8 @@ export const siteSettings = pgTable("site_settings", {
   showWhatsapp: boolean("show_whatsapp").notNull().default(true),
   showCurrencySwitcher: boolean("show_currency_switcher").notNull().default(true),
   showTranslator: boolean("show_translator").notNull().default(true),
+  latitude: doublePrecision("latitude"), // approved map location, null = no map
+  longitude: doublePrecision("longitude"),
   discordWebhook: text("discord_webhook").notNull().default(""), // the admin's own Discord, never shown on the public site
 });
 

@@ -1,5 +1,6 @@
 import { saveSettings } from "@/app/admin/actions";
 import { ActionForm, FormSwitch } from "@/components/admin/controls";
+import { LocationPicker } from "@/components/admin/location-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,6 +52,7 @@ export default async function AdminSettings() {
           <FormSwitch name="showTranslator" label="Language translator" hint="Lets customers translate the website into their language" defaultChecked={s.showTranslator} />
         </section>
       </ActionForm>
+      <LocationPicker address={s.address} saved={s.latitude != null && s.longitude != null ? { lat: s.latitude, lon: s.longitude } : null} />
     </>
   );
 }

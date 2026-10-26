@@ -7,7 +7,7 @@ export type Settings = typeof siteSettings.$inferSelect;
 
 // shown until the admin saves settings for the first time
 export const defaultSettings: Settings = {
-  id: 1, phones: [], whatsapp: "", smsNumber: "", discordWebhook: "", email: "", address: "", defaultCurrency: "USD",
+  id: 1, phones: [], whatsapp: "", smsNumber: "", discordWebhook: "", latitude: null, longitude: null, email: "", address: "", defaultCurrency: "USD",
   showTestimonials: true, showFaq: true, showWhatsapp: true, showCurrencySwitcher: true, showTranslator: true,
 };
 
