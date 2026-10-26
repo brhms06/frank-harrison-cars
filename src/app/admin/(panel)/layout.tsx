@@ -7,7 +7,7 @@ import { getSettings } from "@/lib/content";
 
 export const metadata = { title: { default: "Admin", template: "%s | Admin" }, robots: { index: false } };
 
-const nav = [["Dashboard", "/admin"], ["Cars", "/admin/cars"], ["Brands", "/admin/brands"], ["Testimonials", "/admin/testimonials"], ["FAQs", "/admin/faqs"], ["Settings", "/admin/settings"], ["Account", "/admin/account"]];
+const nav = [["Dashboard", "/admin"], ["Cars", "/admin/cars"], ["Enquiries", "/admin/enquiries"], ["Brands", "/admin/brands"], ["Testimonials", "/admin/testimonials"], ["FAQs", "/admin/faqs"], ["Settings", "/admin/settings"], ["Account", "/admin/account"]];
 
 async function Shell({ children }: { children: React.ReactNode }) {
   const [user, settings] = await Promise.all([requireAdmin(), getSettings()]);
