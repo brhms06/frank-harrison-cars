@@ -48,6 +48,7 @@ export default async function AdminSettings() {
           <FormSwitch name="showTestimonials" label="Testimonials section" hint="On the home page" defaultChecked={s.showTestimonials} />
           <FormSwitch name="showFaq" label="FAQ section" hint="On the Contact page" defaultChecked={s.showFaq} />
           <FormSwitch name="showWhatsapp" label="WhatsApp" hint="Chat button, contact page and the WhatsApp option on car enquiries. Turn off to hide your number everywhere." defaultChecked={s.showWhatsapp} />
+          <FormSwitch name="showLiveChat" label="Live chat" hint="The chat bubble customers use to message you on the website. Never shown in the admin area." defaultChecked={s.showLiveChat} />
           <FormSwitch name="showCurrencySwitcher" label="Currency switcher" hint="Lets customers view prices in another currency" defaultChecked={s.showCurrencySwitcher} />
           <FormSwitch name="showTranslator" label="Language translator" hint="Lets customers translate the website into their language" defaultChecked={s.showTranslator} />
         </section>

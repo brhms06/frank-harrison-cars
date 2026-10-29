@@ -40,6 +40,7 @@ export async function saveSettings(_: FormState, f: FormData): Promise<FormState
     showTestimonials: on(f, "showTestimonials"),
     showFaq: on(f, "showFaq"),
     showWhatsapp: on(f, "showWhatsapp"),
+    showLiveChat: on(f, "showLiveChat"),
     showCurrencySwitcher: on(f, "showCurrencySwitcher"),
     showTranslator: on(f, "showTranslator"),
   };

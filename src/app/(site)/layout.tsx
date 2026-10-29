@@ -64,7 +64,8 @@ async function Chrome({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
       {s.showTranslator && <TranslateScript />}
-      <Script src="//code.jivosite.com/widget/R1YP2dcNYG" strategy="afterInteractive" /> {/* live chat: public pages only, this layout never wraps /admin or /superadmin */}
+      {/* live chat: public pages only (this layout never wraps /admin or /superadmin), admin can switch it off in Settings */}
+      {s.showLiveChat && <Script id="tawk" strategy="afterInteractive" src="https://embed.tawk.to/6ae1ad783ea2de346f9baf9b/default" crossOrigin="anonymous" charSet="UTF-8" />}
       <main className="flex-1">{children}</main>
       <footer id="contact" className="mx-auto w-full max-w-6xl px-4 pb-6 pt-10">
         <div className="rounded-3xl bg-brand p-8 text-white sm:p-10">

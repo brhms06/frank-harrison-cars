@@ -89,6 +89,7 @@ export const siteSettings = pgTable("site_settings", {
   showTestimonials: boolean("show_testimonials").notNull().default(true),
   showFaq: boolean("show_faq").notNull().default(true),
   showWhatsapp: boolean("show_whatsapp").notNull().default(true),
+  showLiveChat: boolean("show_live_chat").notNull().default(true),
   showCurrencySwitcher: boolean("show_currency_switcher").notNull().default(true),
   showTranslator: boolean("show_translator").notNull().default(true),
   latitude: doublePrecision("latitude"), // approved map location, null = no map

@@ -9,7 +9,7 @@ async function Shell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-neutral-100">
       {/* hide the live chat bubble here, even if it was loaded earlier on a public page */}
-      <style>{"jdiv{display:none!important}"}</style>
+      <style>{"iframe[title*='chat widget' i],.widget-visible{display:none!important}"}</style>
 
       <header className="flex items-center justify-between gap-4 bg-brand px-5 py-3 text-white">
         <p className="font-serif text-2xl font-semibold">AD <span className="font-sans text-xs font-normal text-white/60">Super admin</span></p>
